@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './src/screens/HomeScreen';
-import FromInstrument from './src/screens/FromInstrument';
+import InstrumentSelection from './src/screens/InstrumentSelection'
 import FontsHoc from './src/components/FontsHoc';
 
 const RootStack = createStackNavigator(
   {
     Home: FontsHoc(HomeScreen),
-    FromInstrument: FromInstrument
+    InstrumentSelection: InstrumentSelection
   },
   {
     initialRouteName: 'Home',
@@ -27,7 +27,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={{height:ScreenHeight, backgroundColor:'red'}}>
+      <View style={{height:'100%'}}>
         <RootStack />
       </View>
     );
