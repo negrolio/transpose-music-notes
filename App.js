@@ -4,11 +4,13 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './src/screens/HomeScreen';
 import InstrumentSelection from './src/screens/InstrumentSelection'
 import FontsHoc from './src/components/FontsHoc';
+import NotesScreen from './src/screens/NotesScreen';
 
 const RootStack = createStackNavigator(
   {
     Home: FontsHoc(HomeScreen),
-    InstrumentSelection: InstrumentSelection
+    InstrumentSelection: InstrumentSelection,
+    NotesScreen: NotesScreen
   },
   {
     initialRouteName: 'Home',

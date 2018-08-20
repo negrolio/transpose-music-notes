@@ -17,7 +17,7 @@ class ImgButton extends React.Component {
         this.props.onTouch(e, this.props.text)
     }
 
-    componentWillMount () {
+    componentWillUnmount () {
         this.setState({buttonPressed: false})
     }
     render () {

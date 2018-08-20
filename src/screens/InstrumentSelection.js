@@ -21,39 +21,48 @@ class InstrumentSelection extends Component {
         this.state = {
           titleScreen: 'From',
           firstSelected: false,
-          selectedButton: ''
+          selectedButton: '',
+          fromNote: '',
+          toNote: ''
         }
       }
 
+    componentDidUpdate () {
+        this.state.toNote !== '' && console.log('soy will')
+    }
+
     onFirstSelection = (e, tone) => {
-        //console.log(ReactNativeComponentTree.getInstanceFromNode(e.target))
-        console.log(tone)
-        
-        // when we select an instrument, change the title bar, save that already selected one, and save the number target
+
+        // when we select an instrument, change the title bar, save was a selected, and save the number target
         if (!this.state.firstSelected) {
             this.setState({
                 titleScreen: 'To',
                 firstSelected: true,
-                selectedButton: e.target
+                selectedButton: e.target,
+                fromNote: tone
             })
             this.props.navigation.setParams({ title: 'Select end instrument' })
         } else {
-            // if in the second selection we press the same button that before we have to reset the values
+            // if press the same button twice we have to reset the values
             if (this.state.selectedButton === e.target) {
                 this.setState({
                     titleScreen: 'from',
                     firstSelected: false,
-                    selectedButton: ''
+                    selectedButton: '',
+                    fromNote: ''
                 })
                 this.props.navigation.setParams({ title: 'Select initial instrument' })
             } else {
-                this.goToNotesScreen()
+            // if press a diferent button we have to go to another screen
+                this.setState({toNote: tone},()=>{
+                    this.goToNotesScreen()
+                })
             }
         }
     }
 
     goToNotesScreen = () => {
-        this.props.navigation.navigate('Home',{title:'Select initial instrument'})
+        this.props.navigation.navigate('NotesScreen',{title:'Select note to transpose'})
     }
 
     render() {
