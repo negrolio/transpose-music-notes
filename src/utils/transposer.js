@@ -1,7 +1,7 @@
 const notesWithSharps = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
 const notesWithFlats =  ['A','BB','B','C','DB','D','EB','E','F','GB','G','AB']
 
-const transportByHalfTones = (note,quanty,direction)=>{
+export default transportByHalfTones = (note,quanty,direction)=>{
     notes = note[1] === '#' || direction === 'up' && note[1] !== 'B' ?  notesWithSharps : notesWithFlats;
 
     let idxNote = notes.indexOf(note)
@@ -15,4 +15,4 @@ const transportByHalfTones = (note,quanty,direction)=>{
             break;
     }
 }
-console.log(transportByHalfTones('AB',2,'up'))
+//console.log(transportByHalfTones('AB',2,'up'))

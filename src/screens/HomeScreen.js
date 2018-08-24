@@ -17,10 +17,6 @@ class HomeScreen extends Component {
                         <Image source={require("./../../public/img/home/crece2.jpg")} style={{height: '100%', width: '100%'}}/>
                     </TouchableOpacity>
                 </View>
-                    {/* <View style={styles.buttonsLayout}>
-                        <Text style={styles.textButtonLayout}>Several</Text>
-                        <ImgButton src={require("./../../public/img/notes.png")} text='Notes' />
-                    </View> */}
             </View>
         );
     }
@@ -29,10 +25,7 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         height:'100%',
-        //flex: 1,
-        //backgroundColor: 'red',
         alignItems: 'center',
-        //justifyContent: 'center',
         backgroundColor: '#F0E68C'
       },
     containerButtons: {
@@ -55,13 +48,11 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         marginLeft: 5,
         marginRight: 5,
-        //marginTop: 10,
       },
       buttonsLayout: {
         height: 100,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        //backgroundColor: 'yellow'
       },
       textButtonLayout: {
         fontFamily:'PermanentMarker-Regular',

@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, ImageBackground, TouchableOpacity  } from 'reac
 
 class ImgButton extends React.Component {
     constructor(props){
-        //console.log(props)
         super(props)
         this.state = {
             buttonPressed: false
@@ -52,9 +51,6 @@ const styles = StyleSheet.create({
         marginRight: 5,
         //marginTop: 10,
     },
-    // pressedImg: {
-    //     backgroundColor: '#419CBA'
-    // },
     button: {
         alignItems: 'center',
         padding: 10
