@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Header from '../components/Header';
 import InstrSelLayout from '../components/InstrSelLayout';
+import utilsFunctions from '../utils/utilsFunctions';
 //import ReactNativeComponentTree from 'react-native/Libraries/Renderer/shims/ReactNativeComponentTree';
 
 class InstrumentSelection extends Component {
@@ -14,6 +15,7 @@ class InstrumentSelection extends Component {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
+        headerLeft: <View></View> //ugly way of eliminate the back arrow button on header bar
     });
 
     constructor (props) {
@@ -26,10 +28,6 @@ class InstrumentSelection extends Component {
           toNote: ''
         }
       }
-
-    componentDidUpdate () {
-        this.state.toNote !== '' && console.log('soy will')
-    }
 
     onFirstSelection = (e, tone) => {
 
@@ -45,27 +43,39 @@ class InstrumentSelection extends Component {
         } else {
             // if press the same button twice we have to reset the values
             if (this.state.selectedButton === e.target) {
-                this.setState({
-                    titleScreen: 'from',
-                    firstSelected: false,
-                    selectedButton: '',
-                    fromNote: ''
-                })
+                this.resetValuesScreen();
                 this.props.navigation.setParams({ title: 'Select initial instrument' })
             } else {
             // if press a diferent button we have to go to another screen
                 this.setState({toNote: tone},()=>{
-                    this.goToNotesScreen()
+                    const { fromNote, toNote } = this.state;
+                    const directionAndQuantyHalfTones = utilsFunctions.setDirectionAndQuantyHalfTones(fromNote, toNote);
+                    this.goToNotesScreen(directionAndQuantyHalfTones)
                 })
             }
         }
     }
 
-    goToNotesScreen = () => {
-        this.props.navigation.navigate('NotesScreen',{title:'Select note to transpose'})
+    goToNotesScreen = (resultOfInstSelection) => {
+        this.props.navigation.navigate(
+            'NotesScreen',
+            {title:'Select note to transpose', data: resultOfInstSelection, resetInstSelection: this.resetValuesScreen}
+        )
+    }
+
+    resetValuesScreen = () => {
+        console.log('holita')
+        this.setState({
+            titleScreen: 'from',
+            firstSelected: false,
+            selectedButton: '',
+            fromNote: '',
+            toNote: ''
+        })
     }
 
     render() {
+        console.log(this.state, 'del render')
         return (
             <View style={styles.container}>
                 <Header title={this.state.titleScreen} />
