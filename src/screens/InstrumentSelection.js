@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Header from '../components/Header';
 import InstrSelLayout from '../components/InstrSelLayout';
 import utilsFunctions from '../utils/utilsFunctions';
-//import ReactNativeComponentTree from 'react-native/Libraries/Renderer/shims/ReactNativeComponentTree';
 
 class InstrumentSelection extends Component {
     static navigationOptions = ({navigation})=>({
-        title: navigation.getParam('title', 'A Nested Details Screen'),
+        title: navigation.getParam('title', 'Select initial instrument'),
         headerStyle: {
           backgroundColor: '#F7F8E0',
         },
@@ -43,13 +43,13 @@ class InstrumentSelection extends Component {
         } else {
             // if press the same button twice we have to reset the values
             if (this.state.selectedButton === e.target) {
-                this.resetValuesScreen();
-                this.props.navigation.setParams({ title: 'Select initial instrument' })
+                this.resetState(); //this is like render again the screen
             } else {
             // if press a diferent button we have to go to another screen
                 this.setState({toNote: tone},()=>{
                     const { fromNote, toNote } = this.state;
                     const directionAndQuantyHalfTones = utilsFunctions.setDirectionAndQuantyHalfTones(fromNote, toNote);
+                    this.resetState() //before go to screen we reset the state
                     this.goToNotesScreen(directionAndQuantyHalfTones)
                 })
             }
@@ -59,23 +59,32 @@ class InstrumentSelection extends Component {
     goToNotesScreen = (resultOfInstSelection) => {
         this.props.navigation.navigate(
             'NotesScreen',
-            {title:'Select note to transpose', data: resultOfInstSelection, resetInstSelection: this.resetValuesScreen}
+            {title:'Select note to transpose', data: resultOfInstSelection}
         )
     }
-
-    resetValuesScreen = () => {
-        console.log('holita')
-        this.setState({
-            titleScreen: 'from',
-            firstSelected: false,
-            selectedButton: '',
-            fromNote: '',
-            toNote: ''
+    
+    // because react navigation doesn't trigger the componentWillUnmount, we have to manually reset the state,
+    // maybe this need a review in the future
+    resetState = ()=>{
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'InstrumentSelection'})]
         })
+        this.props.navigation.dispatch(resetAction)
     }
 
+    // resetValuesScreen = () => {
+    //     console.log('holita')
+    //     this.setState({
+    //         titleScreen: 'from',
+    //         firstSelected: false,
+    //         selectedButton: '',
+    //         fromNote: '',
+    //         toNote: ''
+    //     })
+    // }
+
     render() {
-        console.log(this.state, 'del render')
         return (
             <View style={styles.container}>
                 <Header title={this.state.titleScreen} />

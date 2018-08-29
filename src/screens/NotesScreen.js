@@ -25,18 +25,15 @@ class NotesScreen extends Component {
     super(props);
     this.state = {
       allNotes: this.setArrayOfNotesWithDetails(notesWithSharps),
-      //flatNotes: this.setArrayOfNotesWithDetails(notesWithFlats),
       flatNotes: false,
       directionAndQuantityToTranspose: props.navigation.getParam('data')
     }
   }
   
   componentDidMount() {
-    this.props.navigation.getParam('resetInstSelection')()
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      //this.goBack(); // works best when the goBack is async
-      console.log('llegue?')
-      this.props.navigation.navigate('InstrumentSelection',{title:'Select initial instrument'})
+      this.props.navigation.goBack(); // works best when the goBack is async
+      //this.props.navigation.navigate('InstrumentSelection',{title:'Select initial instrument'})
       return true;
     });
   }
@@ -67,7 +64,6 @@ class NotesScreen extends Component {
           onPress={this.onButtonPress}
           key={element.title} />)
     }
-    //return array3buttons
     return (
       <View style={styles.row}>
         {array3buttons}
@@ -115,7 +111,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0E68C',
   },
   row: {
-    //justifyContent: 'space-around',
     flexDirection: 'row'
   }
 });
