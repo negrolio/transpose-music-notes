@@ -29,7 +29,7 @@ class InstrumentSelection extends Component {
         }
       }
 
-    onFirstSelection = (e, tone) => {
+    onSelectAnInstrument = (e, tone) => {
 
         // when we select an instrument, change the title bar, save was a selected, and save the number target
         if (!this.state.firstSelected) {
@@ -45,7 +45,7 @@ class InstrumentSelection extends Component {
             if (this.state.selectedButton === e.target) {
                 this.resetState(); //this is like render again the screen
             } else {
-            // if press a diferent button we have to go to another screen
+            // if press a diferent button we have to go to the next screen
                 this.setState({toNote: tone},()=>{
                     const { fromNote, toNote } = this.state;
                     const directionAndQuantyHalfTones = utilsFunctions.setDirectionAndQuantyHalfTones(fromNote, toNote);
@@ -88,7 +88,7 @@ class InstrumentSelection extends Component {
         return (
             <View style={styles.container}>
                 <Header title={this.state.titleScreen} />
-                <InstrSelLayout onPress={this.onFirstSelection} />
+                <InstrSelLayout onPress={this.onSelectAnInstrument} />
             </View>
         );
     }

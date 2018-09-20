@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Switch, BackHandler } from 'react-native';
-import SquareButton from '../components/SquareButton';
+import NoteButton from '../components/NoteButton';
 import utilsFunctions from '../utils/utilsFunctions';
 import SwitchSharpFlat from '../components/SwitchSharpFlat';
+import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
@@ -20,13 +21,15 @@ class NotesScreen extends Component {
     headerLeft: <View></View> //ugly way of eliminate the back arrow button on header bar
   });
 
-  
+
   constructor (props) {
     super(props);
     this.state = {
       allNotes: this.setArrayOfNotesWithDetails(notesWithSharps),
       flatNotes: false,
-      directionAndQuantityToTranspose: props.navigation.getParam('data')
+      directionAndQuantityToTranspose: props.navigation.getParam('data'),
+      showList: false,
+      listOfTransposedNotes: []
     }
   }
   
@@ -57,12 +60,14 @@ class NotesScreen extends Component {
     for (let index = from; index <= to; index++) {
       const element = array[index];
       array3buttons.push(
-        <SquareButton 
-          text={element.title}
-          pressed={element.pressed}
-          transposed={element.transposed}
-          onPress={this.onButtonPress}
-          key={element.title} />)
+        <View style={{margin:20, height:80, width:80}} key={element.title}>
+          <NoteButton 
+            text={element.title}
+            pressed={element.pressed}
+            transposed={element.transposed}
+            onPress={this.onButtonPress} />
+        </View>
+        )
     }
     return (
       <View style={styles.row}>
@@ -72,14 +77,20 @@ class NotesScreen extends Component {
   }
 
   onButtonPress = (buttonPressed)=>{
+    this.transposeAndSave(buttonPressed)
+  }
+  
+  transposeAndSave = (noteToTranspose)=>{
     const { flatNotes, directionAndQuantityToTranspose } = this.state;
     const { quanty, direction } = directionAndQuantityToTranspose;
-
+  
     const allNotes = flatNotes ? notesWithFlats : notesWithSharps;
-    const transposedNote = utilsFunctions.transportByHalfTones(buttonPressed,quanty,direction,allNotes)
-    this.setState({
-      allNotes: this.setArrayOfNotesWithDetails(allNotes, buttonPressed, transposedNote)
-    })
+    const transposedNote = utilsFunctions.transportByHalfTones(noteToTranspose,quanty,direction,allNotes)
+    this.setState((prevState)=>({
+      allNotes: this.setArrayOfNotesWithDetails(allNotes, noteToTranspose, transposedNote),
+      listOfTransposedNotes: [...prevState.listOfTransposedNotes,transposedNote],
+      showList: true
+    }))
   }
 
   switchBetweenSharpFlat = () => {
@@ -91,8 +102,10 @@ class NotesScreen extends Component {
   }
 
   render() {
+    console.log(this.state.listOfTransposedNotes)
     return (
       <View style={styles.container}>
+        {this.state.showList && <ListOfTrasposedNotes listOfNotes={this.state.listOfTransposedNotes}/>}
         <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
           {this.renderThreeColumnButtons(this.state.allNotes,0,2)}
           {this.renderThreeColumnButtons(this.state.allNotes,3,5)}
