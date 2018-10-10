@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Switch, BackHandler } from 'react-native';
-import NoteButton from '../components/NoteButton';
 import utilsFunctions from '../utils/utilsFunctions';
 import SwitchSharpFlat from '../components/SwitchSharpFlat';
 import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
+import NotesSelLayout from '../components/NotesSelLayout';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
@@ -55,27 +55,6 @@ class NotesScreen extends Component {
     })
   }
 
-  renderThreeColumnButtons = (array, from, to)=>{
-    const array3buttons = []
-    for (let index = from; index <= to; index++) {
-      const element = array[index];
-      array3buttons.push(
-        <View style={{margin:20, height:80, width:80}} key={element.title}>
-          <NoteButton 
-            text={element.title}
-            pressed={element.pressed}
-            transposed={element.transposed}
-            onPress={this.onButtonPress} />
-        </View>
-        )
-    }
-    return (
-      <View style={styles.row}>
-        {array3buttons}
-      </View>
-    )
-  }
-
   onButtonPress = (buttonPressed)=>{
     this.transposeAndSave(buttonPressed)
   }
@@ -105,12 +84,16 @@ class NotesScreen extends Component {
     console.log(this.state.listOfTransposedNotes)
     return (
       <View style={styles.container}>
+        {/* List of transposed notes */}
         {this.state.showList && <ListOfTrasposedNotes listOfNotes={this.state.listOfTransposedNotes}/>}
-        <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
-          {this.renderThreeColumnButtons(this.state.allNotes,0,2)}
-          {this.renderThreeColumnButtons(this.state.allNotes,3,5)}
-          {this.renderThreeColumnButtons(this.state.allNotes,6,8)}
-          {this.renderThreeColumnButtons(this.state.allNotes,9,11)}
+        {/* switch to change the buttons between sharp and flats */}
+        <View style={styles.switch}>
+          <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
+        </View>
+        {/* All the note buttons to select and transpose */}
+        <View>
+          <NotesSelLayout notes={this.state.allNotes} action={this.onButtonPress}/>
+        </View>
       </View>
     );
   }
@@ -123,8 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F0E68C',
   },
-  row: {
-    flexDirection: 'row'
+  switch: {
+    alignSelf:'flex-end',
+    height: 40,
+    margin: 10,
+    marginRight:20
   }
 });
 

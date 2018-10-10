@@ -12,13 +12,11 @@ class ListOfTrasposedNotes extends Component {
   }
 
   renderList = ()=>{
-    return this.props.listOfNotes.map((elem)=>{
+    return this.props.listOfNotes.map((elem, idx)=>{
       return (
-        <ScrollView horizontal={true} key={elem}>
-          <View style={styles.containerButton}>
-            <NoteButton text={elem} textSize={30}/>
-          </View>
-        </ScrollView>
+        <View style={styles.containerButton} key={`${elem}+${idx}`}>
+          <NoteButton text={elem} textSize={30} circle={true}/>
+        </View>
       )
     })
   }
@@ -26,7 +24,9 @@ class ListOfTrasposedNotes extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.renderList()}
+        <ScrollView horizontal={true}>
+          {this.renderList()}
+        </ScrollView>
       </View>
     );
   }
@@ -35,11 +35,14 @@ class ListOfTrasposedNotes extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: 200
+    width: 300,
+    backgroundColor:'#e8df8d',
+    borderRadius: 20
   },
   containerButton: {
     width: 50,
-    height: 50
+    height: 50,
+    margin: 10,
   }
 });
 
