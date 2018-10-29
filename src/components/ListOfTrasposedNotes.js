@@ -11,6 +11,13 @@ class ListOfTrasposedNotes extends Component {
     }
   }
 
+  componentDidUpdate (){
+    // we made a delay to give time to render the entire list before scroll to end
+    setTimeout(() => {
+      this.refs.scrollView.scrollToEnd()
+    }, 100);
+  }
+
   renderList = ()=>{
     return this.props.listOfNotes.map((elem, idx)=>{
       return (
@@ -24,7 +31,7 @@ class ListOfTrasposedNotes extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView horizontal={true}>
+        <ScrollView ref="scrollView" horizontal={true}>
           {this.renderList()}
         </ScrollView>
       </View>

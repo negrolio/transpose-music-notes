@@ -41,6 +41,7 @@ class NotesScreen extends Component {
     });
   }
 
+
   componentWillUnmount() {
     this.backHandler.remove();
   }
@@ -81,7 +82,6 @@ class NotesScreen extends Component {
   }
 
   render() {
-    console.log(this.state.listOfTransposedNotes)
     return (
       <View style={styles.container}>
         {/* List of transposed notes */}
