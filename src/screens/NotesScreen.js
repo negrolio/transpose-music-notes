@@ -81,15 +81,24 @@ class NotesScreen extends Component {
     }))
   }
 
+  removeATransposedNote = (indexOfSelectedNote) => {
+    this.setState((prevState)=>({
+      listOfTransposedNotes: prevState.listOfTransposedNotes.filter((elem, idx ) => idx !== indexOfSelectedNote)
+    }))
+  }
+  
   render() {
     return (
       <View style={styles.container}>
+
         {/* List of transposed notes */}
-        {this.state.showList && <ListOfTrasposedNotes listOfNotes={this.state.listOfTransposedNotes}/>}
+        {this.state.showList && <ListOfTrasposedNotes listOfNotes={this.state.listOfTransposedNotes} remove={this.removeATransposedNote}/>}
+
         {/* switch to change the buttons between sharp and flats */}
         <View style={styles.switch}>
           <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
         </View>
+
         {/* All the note buttons to select and transpose */}
         <View>
           <NotesSelLayout notes={this.state.allNotes} action={this.onButtonPress}/>

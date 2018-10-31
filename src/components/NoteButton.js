@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 class NoteButton extends Component {
 
   onButtonPressed = ()=>{
-    this.props.onPress(this.props.text)
+    this.props.onPress(this.props.param)
   }
 
   render() {

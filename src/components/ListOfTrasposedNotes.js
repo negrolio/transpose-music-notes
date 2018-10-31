@@ -11,18 +11,26 @@ class ListOfTrasposedNotes extends Component {
     }
   }
 
-  componentDidUpdate (){
-    // we made a delay to give time to render the entire list before scroll to end
-    setTimeout(() => {
-      this.refs.scrollView.scrollToEnd()
-    }, 100);
+  componentDidUpdate (prevProps){
+    // only scroll to end if we add a note, not when remove it
+    if (prevProps.listOfNotes.length < this.props.listOfNotes.length) {
+      // we made a delay to give time to render the entire list before scroll to end
+      setTimeout(() => {
+        this.refs.scrollView.scrollToEnd()
+      }, 100);
+    }
   }
 
   renderList = ()=>{
     return this.props.listOfNotes.map((elem, idx)=>{
       return (
         <View style={styles.containerButton} key={`${elem}+${idx}`}>
-          <NoteButton text={elem} textSize={30} circle={true}/>
+          <NoteButton 
+            text={elem}
+            textSize={30}
+            circle={true}
+            onPress={this.props.remove}
+            param={idx} />
         </View>
       )
     })

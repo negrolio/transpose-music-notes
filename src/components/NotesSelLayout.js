@@ -14,7 +14,8 @@ class NotesSelLayout extends Component {
             text={element.title}
             pressed={element.pressed}
             transposed={element.transposed}
-            onPress={this.props.action} />
+            onPress={this.props.action}
+            param={element.title} />
         </View>
         )
     }
