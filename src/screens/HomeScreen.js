@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Header from './../components/Header';
-import ImgButton from './../components/ImgButton';
 
 class HomeScreen extends Component {
     

@@ -9,18 +9,6 @@ const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
 
 class NotesScreen extends Component {
-  static navigationOptions = ({navigation})=>({
-    title: navigation.getParam('title'),
-    headerStyle: {
-      backgroundColor: '#F7F8E0',
-    },
-    headerTintColor: '#353528',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerLeft: <View></View> //ugly way of eliminate the back arrow button on header bar
-  });
-
 
   constructor (props) {
     super(props);

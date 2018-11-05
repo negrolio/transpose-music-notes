@@ -6,28 +6,21 @@ import InstrSelLayout from '../components/InstrSelLayout';
 import utilsFunctions from '../utils/utilsFunctions';
 
 class InstrumentSelection extends Component {
+
     static navigationOptions = ({navigation})=>({
-        title: navigation.getParam('title', 'Select initial instrument'),
-        headerStyle: {
-          backgroundColor: '#F7F8E0',
-        },
-        headerTintColor: '#353528',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerLeft: <View></View> //ugly way of eliminate the back arrow button on header bar
+        header: null
     });
 
     constructor (props) {
         super(props);
         this.state = {
-          titleScreen: 'From',
-          firstSelected: false,
-          selectedButton: '',
-          fromNote: '',
-          toNote: ''
+            titleScreen: 'From',
+            firstSelected: false,
+            selectedButton: '',
+            fromNote: '',
+            toNote: ''
         }
-      }
+    }
 
     onSelectAnInstrument = (e, tone) => {
 
@@ -39,7 +32,6 @@ class InstrumentSelection extends Component {
                 selectedButton: e.target,
                 fromNote: tone
             })
-            this.props.navigation.setParams({ title: 'Select end instrument' })
         } else {
             // if press the same button twice we have to reset the values
             if (this.state.selectedButton === e.target) {
