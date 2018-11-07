@@ -17,6 +17,7 @@ class NotesScreen extends Component {
       flatNotes: false,
       directionAndQuantityToTranspose: props.navigation.getParam('data'),
       showList: false,
+      listOfPressedNotes: [],
       listOfTransposedNotes: []
     }
   }
@@ -56,7 +57,8 @@ class NotesScreen extends Component {
     const transposedNote = utilsFunctions.transportByHalfTones(noteToTranspose,quanty,direction,allNotes)
     this.setState((prevState)=>({
       allNotes: this.setArrayOfNotesWithDetails(allNotes, noteToTranspose, transposedNote),
-      listOfTransposedNotes: [...prevState.listOfTransposedNotes,transposedNote],
+      listOfPressedNotes: [...prevState.listOfPressedNotes, noteToTranspose],
+      listOfTransposedNotes: [...prevState.listOfTransposedNotes, transposedNote],
       showList: true
     }))
   }
@@ -70,8 +72,13 @@ class NotesScreen extends Component {
   }
 
   removeATransposedNote = (indexOfSelectedNote) => {
+    const allNotes = this.state.flatNotes ? notesWithFlats : notesWithSharps;
+
     this.setState((prevState)=>({
-      listOfTransposedNotes: prevState.listOfTransposedNotes.filter((elem, idx ) => idx !== indexOfSelectedNote)
+      listOfTransposedNotes: prevState.listOfTransposedNotes.filter((elem, idx ) => idx !== indexOfSelectedNote),
+      listOfPressedNotes: prevState.listOfPressedNotes.filter((elem, idx ) => idx !== indexOfSelectedNote),
+      // we set again the notes with details, without pressed and transposed, to reset the list
+      allNotes: this.setArrayOfNotesWithDetails(allNotes)
     }))
   }
   
@@ -80,7 +87,13 @@ class NotesScreen extends Component {
       <View style={styles.container}>
 
         {/* List of transposed notes */}
-        {this.state.showList && <ListOfTrasposedNotes listOfNotes={this.state.listOfTransposedNotes} remove={this.removeATransposedNote}/>}
+        {this.state.showList &&
+          <ListOfTrasposedNotes 
+            remove={this.removeATransposedNote}
+            listOfNotes={{
+              transposed: this.state.listOfTransposedNotes,
+              pressed: this.state.listOfPressedNotes
+            }}/>}
 
         {/* switch to change the buttons between sharp and flats */}
         <View style={styles.switch}>

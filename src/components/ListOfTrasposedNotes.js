@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import NoteButton from './NoteButton';
 
 class ListOfTrasposedNotes extends Component {
@@ -13,24 +13,41 @@ class ListOfTrasposedNotes extends Component {
 
   componentDidUpdate (prevProps){
     // only scroll to end if we add a note, not when remove it
-    if (prevProps.listOfNotes.length < this.props.listOfNotes.length) {
+    if (prevProps.listOfNotes.transposed.length < this.props.listOfNotes.transposed.length) {
       // we made a delay to give time to render the entire list before scroll to end
       setTimeout(() => {
         this.refs.scrollView.scrollToEnd()
-      }, 100);
+      }, 50);
     }
   }
 
   renderList = ()=>{
-    return this.props.listOfNotes.map((elem, idx)=>{
+    const { pressed } = this.props.listOfNotes
+    return this.props.listOfNotes.transposed.map((elem, idx)=>{
       return (
-        <View style={styles.containerButton} key={`${elem}+${idx}`}>
-          <NoteButton 
-            text={elem}
-            textSize={30}
-            circle={true}
-            onPress={this.props.remove}
-            param={idx} />
+        <View key={`${elem}+${idx}`}>
+
+          <View style={styles.containerButton}>
+            <NoteButton 
+              text={pressed[idx]}
+              textSize={30}
+              circle={true}
+              onPress={this.props.remove}
+              param={idx}
+              pressed={true} />
+          </View>
+
+          <Image source={require('../../public/img/arrow-down.png')} style={styles.downArrowMiddle}/>
+
+          <View style={styles.containerButton}>
+            <NoteButton 
+              text={elem}
+              textSize={30}
+              circle={true}
+              onPress={this.props.remove}
+              param={idx}
+              transposed={true} />
+          </View>
         </View>
       )
     })
@@ -52,12 +69,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 300,
     backgroundColor:'#e8df8d',
-    borderRadius: 20
+    borderRadius: 20,
+    marginTop: 30
   },
   containerButton: {
     width: 50,
     height: 50,
     margin: 10,
+  },
+  downArrowMiddle: {
+    width:22,
+    height:22,
+    marginLeft: 29
   }
 });
 
