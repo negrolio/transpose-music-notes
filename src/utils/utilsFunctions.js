@@ -1,5 +1,5 @@
-const notesWithSharps = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
-const notesWithFlats =  ['A','BB','B','C','DB','D','EB','E','F','GB','G','AB']
+// const notesWithSharps = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
+// const notesWithFlats =  ['A','BB','B','C','DB','D','EB','E','F','GB','G','AB']
 
 const transportByHalfTones = (note,quanty,direction,arrayWithAllNotes)=>{
     //notes = note[1] === '#' || direction === 'up' && note[1] !== 'B' ?  notesWithSharps : notesWithFlats;
