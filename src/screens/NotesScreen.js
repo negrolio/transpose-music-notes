@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Switch, BackHandler } from 'react-native';
+import { View, StyleSheet, BackHandler, Dimensions } from 'react-native';
 import utilsFunctions from '../utils/utilsFunctions';
 import SwitchSharpFlat from '../components/SwitchSharpFlat';
 import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
 import NotesSelLayout from '../components/NotesSelLayout';
+import ArrowUpDownAnimated from '../components/ArrowUpDownAnimated';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
@@ -16,9 +17,9 @@ class NotesScreen extends Component {
       allNotes: this.setArrayOfNotesWithDetails(notesWithSharps),
       flatNotes: false,
       directionAndQuantityToTranspose: props.navigation.getParam('data'),
-      showList: false,
       listOfPressedNotes: [],
-      listOfTransposedNotes: []
+      listOfTransposedNotes: [],
+      pressedListExpanded: false
     }
   }
   
@@ -59,7 +60,6 @@ class NotesScreen extends Component {
       allNotes: this.setArrayOfNotesWithDetails(allNotes, noteToTranspose, transposedNote),
       listOfPressedNotes: [...prevState.listOfPressedNotes, noteToTranspose],
       listOfTransposedNotes: [...prevState.listOfTransposedNotes, transposedNote],
-      showList: true
     }))
   }
 
@@ -81,27 +81,36 @@ class NotesScreen extends Component {
       allNotes: this.setArrayOfNotesWithDetails(allNotes)
     }))
   }
+
+  toggleExpandPressedList = ()=>{
+    this.setState((prevState)=>({
+      pressedListExpanded: !prevState.pressedListExpanded
+    }))
+  }
   
   render() {
+    const { pressedListExpanded } = this.state;
     return (
       <View style={styles.container}>
 
         {/* List of transposed notes */}
-        {this.state.showList &&
+        <View style={{flex:pressedListExpanded?3:1.5}}>
           <ListOfTrasposedNotes 
             remove={this.removeATransposedNote}
+            pressedExpanded={pressedListExpanded}
             listOfNotes={{
               transposed: this.state.listOfTransposedNotes,
-              pressed: this.state.listOfPressedNotes
-            }}/>}
+              pressed: this.state.listOfPressedNotes}}/>
+        </View>
 
-        {/* switch to change the buttons between sharp and flats */}
-        <View style={styles.switch}>
+        <View style={styles.barOptions}>
+          <ArrowUpDownAnimated action={this.toggleExpandPressedList}/>
+          {/* switch to change the buttons between sharp and flats */}
           <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
         </View>
 
         {/* All the note buttons to select and transpose */}
-        <View>
+        <View style={styles.notesButtons}>
           <NotesSelLayout notes={this.state.allNotes} action={this.onButtonPress}/>
         </View>
       </View>
@@ -116,11 +125,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F0E68C',
   },
-  switch: {
-    alignSelf:'flex-end',
-    height: 40,
-    margin: 10,
-    marginRight:20
+  barOptions: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 45,
+    width: Dimensions.get('window').width,
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  notesButtons: {
+    flex: 5
   }
 });
 

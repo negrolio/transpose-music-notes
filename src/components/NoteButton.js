@@ -16,7 +16,10 @@ class NoteButton extends Component {
             borderRadius: this.props.circle ? 50 : 10
           }]}
           onPress={this.onButtonPressed}>
-          <Text style={[styles.text,{fontSize: this.props.textSize || 50}]}>{this.props.text}</Text>
+          <Text style={[styles.text,{
+              fontSize: this.props.textSize || 50}]}>
+            {this.props.text}
+          </Text>
         </TouchableOpacity >
       </View>
     );
@@ -28,7 +31,6 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       padding: 3,
-      //borderRadius: 10,
       borderWidth: 1,
       borderColor: '#ddd',
       borderBottomWidth: 0,
@@ -40,11 +42,11 @@ const styles = StyleSheet.create({
       marginLeft: 5,
       marginRight: 5,
       justifyContent: 'center',
+      alignItems: 'center',
       flexDirection: 'row'
   },
   text: {
       fontFamily:'AmaticSC-Bold',
-      //fontSize: 50
   }
 });
 

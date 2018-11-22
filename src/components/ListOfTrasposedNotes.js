@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
 import NoteButton from './NoteButton';
 import Display from 'react-native-display';
 
@@ -9,7 +9,6 @@ class ListOfTrasposedNotes extends Component {
     super(props);
     this.state = {
       arrayOfButtons: this.props.listOfNotes,
-      pressedExpanded: false,
     }
   }
 
@@ -60,46 +59,29 @@ class ListOfTrasposedNotes extends Component {
     })
   }
 
-  togglePressedList = ()=>{
-    this.setState((prevState)=>({
-      pressedExpanded: !prevState.pressedExpanded
-    }))
-  }
-
   render() {
     return (
-      <View style={{flexDirection:'row'}}>
+      <View style={styles.listContainer}>
+        <ScrollView ref="scrollView" horizontal={true}>
+          <View>
 
-        <View style={styles.triangle}>
-          <TouchableOpacity onPress={this.togglePressedList} >
-            <Image source={require("./../../public/img/triangle.png")} 
-                            style={{height: '100%', width: '100%'}}/>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.listContainer}>
-          <ScrollView ref="scrollView" horizontal={true}>
-            <View>
-
-              <Display
-                enable={this.state.pressedExpanded} 
-                enterDuration={500} 
-                exitDuration={250}
-                exit="fadeOutDown"
-                enter="fadeInUp"
-                >
-                <View style={{flexDirection:'row'}}>
-                  {this.renderPressedList()}
-                </View>
-              </Display>
-
+            <Display
+              enable={this.props.pressedExpanded} 
+              enterDuration={500} 
+              exitDuration={250}
+              exit="fadeOutDown"
+              enter="fadeInUp">
               <View style={{flexDirection:'row'}}>
-                {this.renderTransposedList()}
+                {this.renderPressedList()}
               </View>
+            </Display>
 
+            <View style={{flexDirection:'row'}}>
+              {this.renderTransposedList()}
             </View>
-          </ScrollView>
-        </View>
+
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -107,9 +89,9 @@ class ListOfTrasposedNotes extends Component {
 
 const styles = StyleSheet.create({
   listContainer: {
-    flex: 11/12,
+    alignItems: 'center',
     flexDirection: 'row',
-    width: 300,
+    width: Dimensions.get('window').width - 15,
     backgroundColor:'#e8df8d',
     borderRadius: 20,
     marginTop: 30
@@ -122,14 +104,7 @@ const styles = StyleSheet.create({
   downArrowMiddle: {
     width:22,
     height:22,
-    marginLeft: 29
-  },
-  triangle: {
-    flex: 1/12,
-    //backgroundColor: 'green',
-    width: 10,
-    height: 20,
-    marginTop: 50
+    marginLeft: 28.5
   }
 });
 

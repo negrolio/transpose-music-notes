@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import NoteButton from './NoteButton';
 
 class NotesSelLayout extends Component {
@@ -9,7 +9,7 @@ class NotesSelLayout extends Component {
     for (let index = from; index <= to; index++) {
       const element = array[index];
       array3buttons.push(
-        <View style={{margin:15, height:70, width:70}} key={element.title}>
+        <View style={styles.button} key={element.title}>
           <NoteButton 
             text={element.title}
             pressed={element.pressed}
@@ -40,12 +40,19 @@ class NotesSelLayout extends Component {
 
 const styles = StyleSheet.create({
   container: {
-  //flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   row: {
-    flexDirection: 'row'
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: Dimensions.get('window').width,
+  },
+  button: {
+    height:65,
+    width:85
   }
 });
 
