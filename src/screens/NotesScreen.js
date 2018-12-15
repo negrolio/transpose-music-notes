@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, BackHandler, Dimensions } from 'react-native';
+import { View, StyleSheet, BackHandler, Dimensions, Image,TouchableOpacity } from 'react-native';
 import utilsFunctions from '../utils/utilsFunctions';
 import SwitchSharpFlat from '../components/SwitchSharpFlat';
 import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
@@ -19,7 +19,8 @@ class NotesScreen extends Component {
       directionAndQuantityToTranspose: props.navigation.getParam('data'),
       listOfPressedNotes: [],
       listOfTransposedNotes: [],
-      pressedListExpanded: false
+      pressedListExpanded: false,
+      fullScreenList: false
     }
   }
   
@@ -88,6 +89,12 @@ class NotesScreen extends Component {
     }))
   }
   
+  toggleFullScreenList = ()=>{
+    this.setState((prevState)=>({
+      fullScreenList: !prevState.fullScreenList
+    }))
+  }
+
   render() {
     const { pressedListExpanded } = this.state;
     return (
@@ -98,6 +105,8 @@ class NotesScreen extends Component {
           <ListOfTrasposedNotes 
             remove={this.removeATransposedNote}
             pressedExpanded={pressedListExpanded}
+            fullScreen={this.state.fullScreenList}
+            toggleFullScreen={this.toggleFullScreenList}
             listOfNotes={{
               transposed: this.state.listOfTransposedNotes,
               pressed: this.state.listOfPressedNotes}}/>
@@ -105,9 +114,13 @@ class NotesScreen extends Component {
 
         <View style={styles.barOptions}>
           <ArrowUpDownAnimated action={this.toggleExpandPressedList}/>
+          <TouchableOpacity onPress={this.toggleFullScreenList} style={styles.fullScreenBtn}>
+            <Image source={require("./../../public/img/fullScreen.png")} style={{height: '100%', width: '100%'}}/>
+          </TouchableOpacity>
           {/* switch to change the buttons between sharp and flats */}
           <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
         </View>
+
 
         {/* All the note buttons to select and transpose */}
         <View style={styles.notesButtons}>
@@ -133,8 +146,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
+  fullScreenBtn: {
+    width: 40,
+    height: 40,
+  },
   notesButtons: {
-    flex: 5
+    flex: 5,
+    zIndex:-1
   }
 });
 

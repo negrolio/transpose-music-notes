@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Dimensions, TouchableOpacity } from 'react-native';
 import NoteButton from './NoteButton';
 import Display from 'react-native-display';
 
@@ -60,13 +60,19 @@ class ListOfTrasposedNotes extends Component {
   }
 
   render() {
+    const heightScrenn = Dimensions.get('window').height;
+    const { pressedExpanded, fullScreen } = this.props;
     return (
-      <View style={styles.listContainer}>
-        <ScrollView ref="scrollView" horizontal={true}>
+      <View style={[styles.listContainer,{
+        height:this.props.fullScreen ?
+          heightScrenn - 80 :
+          pressedExpanded ? 160 : 70}]}>
+        <ScrollView ref="scrollView" horizontal={!fullScreen}>
           <View>
 
+            {!fullScreen &&
             <Display
-              enable={this.props.pressedExpanded} 
+              enable={pressedExpanded} 
               enterDuration={500} 
               exitDuration={250}
               exit="fadeOutDown"
@@ -74,14 +80,19 @@ class ListOfTrasposedNotes extends Component {
               <View style={{flexDirection:'row'}}>
                 {this.renderPressedList()}
               </View>
-            </Display>
+            </Display>}
 
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row', flexWrap:fullScreen ? 'wrap' : 'nowrap'}}>
               {this.renderTransposedList()}
             </View>
 
           </View>
         </ScrollView>
+
+        {fullScreen && 
+          <TouchableOpacity onPress={this.props.toggleFullScreen} style={styles.exitFullScreenBtn}>
+            <Image source={require('../../public/img/exit-full-screen.png')} style={{width:40,height:40}}/>
+          </TouchableOpacity>}
       </View>
     );
   }
@@ -90,11 +101,12 @@ class ListOfTrasposedNotes extends Component {
 const styles = StyleSheet.create({
   listContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     width: Dimensions.get('window').width - 15,
     backgroundColor:'#e8df8d',
     borderRadius: 20,
-    marginTop: 30
+    marginTop: 30,
+    zIndex: 1
   },
   containerButton: {
     width: 50,
@@ -105,6 +117,9 @@ const styles = StyleSheet.create({
     width:22,
     height:22,
     marginLeft: 28.5
+  },
+  exitFullScreenBtn: {
+    bottom: 0
   }
 });
 
