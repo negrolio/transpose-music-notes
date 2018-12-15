@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Transnote",
+    "icon": "./public/img/note.png",
+    "version": "1.0.0",
+    "slug": "transnote",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "leomolinari.com"
+    },
+    "android": {
+      "package": "leomolinari.com"
+    }
   }
 }
