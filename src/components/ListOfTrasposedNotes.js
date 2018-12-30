@@ -65,7 +65,7 @@ class ListOfTrasposedNotes extends Component {
     return (
       <View style={[styles.listContainer,{
         height:this.props.fullScreen ?
-          heightScrenn - 80 :
+          heightScrenn - 70 :
           pressedExpanded ? 160 : 70}]}>
         <ScrollView ref="scrollView" horizontal={!fullScreen}>
           <View>

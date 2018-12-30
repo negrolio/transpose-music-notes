@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, BackHandler } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Header from '../components/Header';
 import InstrSelLayout from '../components/InstrSelLayout';
@@ -20,6 +20,17 @@ class InstrumentSelection extends Component {
             fromNote: '',
             toNote: ''
         }
+    }
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home'); 
+            return true;
+        });
+    }
+
+
+    componentWillUnmount() {
+        this.backHandler.remove();
     }
 
     onSelectAnInstrument = (e, tone) => {
@@ -51,7 +62,7 @@ class InstrumentSelection extends Component {
     goToNotesScreen = (resultOfInstSelection) => {
         this.props.navigation.navigate(
             'NotesScreen',
-            {title:'Select note to transpose', data: resultOfInstSelection}
+            {title:'Select note to transpose', dataFromTo: resultOfInstSelection}
         )
     }
     

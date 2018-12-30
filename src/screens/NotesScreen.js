@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, BackHandler, Dimensions, Image,TouchableOpacity } from 'react-native';
+import { View, StyleSheet, BackHandler, Dimensions } from 'react-native';
 import utilsFunctions from '../utils/utilsFunctions';
 import SwitchSharpFlat from '../components/SwitchSharpFlat';
 import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
 import NotesSelLayout from '../components/NotesSelLayout';
 import ArrowUpDownAnimated from '../components/ArrowUpDownAnimated';
+import ImgButton from '../components/ImgButton';
+import SaveList from '../components/SaveList';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
@@ -16,11 +18,12 @@ class NotesScreen extends Component {
     this.state = {
       allNotes: this.setArrayOfNotesWithDetails(notesWithSharps),
       flatNotes: false,
-      directionAndQuantityToTranspose: props.navigation.getParam('data'),
-      listOfPressedNotes: [],
-      listOfTransposedNotes: [],
+      directionAndQuantityToTranspose: props.navigation.getParam('dataFromTo'),
+      listOfPressedNotes: props.navigation.getParam('pressedList') || [],
+      listOfTransposedNotes: props.navigation.getParam('transposedList') || [],
       pressedListExpanded: false,
-      fullScreenList: false
+      fullScreenList: false,
+      showPrompt: false
     }
   }
   
@@ -95,8 +98,15 @@ class NotesScreen extends Component {
     }))
   }
 
+  showPrompt = () => {
+    this.setState(prevState=>({
+      showPrompt: !prevState.showPrompt
+    }))
+  }
+
   render() {
-    const { pressedListExpanded } = this.state;
+    const { pressedListExpanded, listOfTransposedNotes, listOfPressedNotes, showPrompt, directionAndQuantityToTranspose } = this.state;
+
     return (
       <View style={styles.container}>
 
@@ -114,9 +124,14 @@ class NotesScreen extends Component {
 
         <View style={styles.barOptions}>
           <ArrowUpDownAnimated action={this.toggleExpandPressedList}/>
-          <TouchableOpacity onPress={this.toggleFullScreenList} style={styles.fullScreenBtn}>
-            <Image source={require("./../../public/img/fullScreen.png")} style={{height: '100%', width: '100%'}}/>
-          </TouchableOpacity>
+          <ImgButton //fullscreen button
+            onPress={this.toggleFullScreenList}
+            styles={styles.fullScreenBtn}
+            img={require("./../../public/img/fullScreen.png")}/>
+          <ImgButton //save button
+            onPress={this.showPrompt}
+            styles={styles.saveIcon}
+            img={require('./../../public/img/save.png')}/>
           {/* switch to change the buttons between sharp and flats */}
           <SwitchSharpFlat onSwitch={this.switchBetweenSharpFlat}/>
         </View>
@@ -126,6 +141,13 @@ class NotesScreen extends Component {
         <View style={styles.notesButtons}>
           <NotesSelLayout notes={this.state.allNotes} action={this.onButtonPress}/>
         </View>
+
+        {showPrompt &&
+         <SaveList
+          transposed={listOfTransposedNotes}
+          pressed={listOfPressedNotes}
+          toggleShow={this.showPrompt}
+          directionAndQuantityToTranspose={directionAndQuantityToTranspose}/>}
       </View>
     );
   }
@@ -147,6 +169,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   fullScreenBtn: {
+    width: 40,
+    height: 40,
+  },
+  saveIcon: {
     width: 40,
     height: 40,
   },

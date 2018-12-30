@@ -5,12 +5,14 @@ import HomeScreen from './src/screens/HomeScreen';
 import InstrumentSelection from './src/screens/InstrumentSelection'
 import FontsHoc from './src/components/FontsHoc';
 import NotesScreen from './src/screens/NotesScreen';
+import FilesList from './src/screens/FilesList'
 
 const RootStack = createStackNavigator(
   {
     Home: FontsHoc(HomeScreen),
     InstrumentSelection: InstrumentSelection,
-    NotesScreen: NotesScreen
+    NotesScreen: NotesScreen,
+    FilesList: FilesList
   },
   {
     initialRouteName: 'Home',
