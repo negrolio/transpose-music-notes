@@ -23,6 +23,7 @@ const setDirectionAndQuantyHalfTones = (from, to) => {
     if (from === 'Bb' && to === 'Eb') return {quanty: 5, direction: 'down'}
     if (from === 'Eb' && to === 'C') return {quanty: 3, direction: 'up'}
     if (from === 'Eb' && to === 'Bb') return {quanty: 5, direction: 'up'}
+    if (from === to) return {quanty: 0, direction: 'up'}
 }
 
 export default utilsFunctions = {

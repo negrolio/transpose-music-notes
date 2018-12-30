@@ -44,10 +44,6 @@ class InstrumentSelection extends Component {
                 fromNote: tone
             })
         } else {
-            // if press the same button twice we have to reset the values
-            if (this.state.selectedButton === e.target) {
-                this.resetState(); //this is like render again the screen
-            } else {
             // if press a diferent button we have to go to the next screen
                 this.setState({toNote: tone},()=>{
                     const { fromNote, toNote } = this.state;
@@ -55,7 +51,6 @@ class InstrumentSelection extends Component {
                     this.resetState() //before go to screen we reset the state
                     this.goToNotesScreen(directionAndQuantyHalfTones)
                 })
-            }
         }
     }
 
