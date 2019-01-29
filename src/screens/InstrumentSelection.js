@@ -47,17 +47,16 @@ class InstrumentSelection extends Component {
             // if press a diferent button we have to go to the next screen
                 this.setState({toNote: tone},()=>{
                     const { fromNote, toNote } = this.state;
-                    const directionAndQuantyHalfTones = utilsFunctions.setDirectionAndQuantyHalfTones(fromNote, toNote);
                     this.resetState() //before go to screen we reset the state
-                    this.goToNotesScreen(directionAndQuantyHalfTones)
+                    this.goToNotesScreen(fromNote, toNote)
                 })
         }
     }
 
-    goToNotesScreen = (resultOfInstSelection) => {
+    goToNotesScreen = (fromNote, toNote) => {
         this.props.navigation.navigate(
             'NotesScreen',
-            {title:'Select note to transpose', dataFromTo: resultOfInstSelection}
+            {title:'Select note to transpose', dataFromTo: {from:fromNote,to:toNote}}
         )
     }
     

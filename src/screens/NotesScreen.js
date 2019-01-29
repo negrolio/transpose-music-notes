@@ -9,7 +9,7 @@ import ImgButton from '../components/ImgButton';
 import SaveList from '../components/SaveList';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-const notesWithFlats =  ['C','DB','D','EB','E','F','GB','G','AB','A','BB','B']
+const notesWithFlats =  ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B']
 
 class NotesScreen extends Component {
 
@@ -18,7 +18,7 @@ class NotesScreen extends Component {
     this.state = {
       allNotes: this.setArrayOfNotesWithDetails(notesWithSharps),
       flatNotes: false,
-      directionAndQuantityToTranspose: props.navigation.getParam('dataFromTo'),
+      fromNoteToNote: props.navigation.getParam('dataFromTo'),
       listOfPressedNotes: props.navigation.getParam('pressedList') || [],
       listOfTransposedNotes: props.navigation.getParam('transposedList') || [],
       pressedListExpanded: false,
@@ -55,11 +55,11 @@ class NotesScreen extends Component {
   }
   
   transposeAndSave = (noteToTranspose)=>{
-    const { flatNotes, directionAndQuantityToTranspose } = this.state;
-    const { quanty, direction } = directionAndQuantityToTranspose;
+    const { flatNotes, fromNoteToNote } = this.state;
+    const { from, to } = fromNoteToNote;
   
     const allNotes = flatNotes ? notesWithFlats : notesWithSharps;
-    const transposedNote = utilsFunctions.transportByHalfTones(noteToTranspose,quanty,direction,allNotes)
+    const transposedNote = utilsFunctions.transposeNoteFromTo(noteToTranspose,from,to,allNotes)
     this.setState((prevState)=>({
       allNotes: this.setArrayOfNotesWithDetails(allNotes, noteToTranspose, transposedNote),
       listOfPressedNotes: [...prevState.listOfPressedNotes, noteToTranspose],

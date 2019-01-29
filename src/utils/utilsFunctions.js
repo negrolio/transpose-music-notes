@@ -1,32 +1,42 @@
-// const notesWithSharps = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
-// const notesWithFlats =  ['A','BB','B','C','DB','D','EB','E','F','GB','G','AB']
+const notesWithFlats =  ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B']
 
-const transportByHalfTones = (note,quanty,direction,arrayWithAllNotes)=>{
-    //notes = note[1] === '#' || direction === 'up' && note[1] !== 'B' ?  notesWithSharps : notesWithFlats;
+const transposeNoteFromTo = (note,from,to,arrayWithAllNotes) => {
 
-    let idxNote = arrayWithAllNotes.indexOf(note)
-    let cromaticScale=arrayWithAllNotes.slice(idxNote).concat(arrayWithAllNotes.slice(0,idxNote))
-    switch (direction){
-        case 'up':
-            return cromaticScale[quanty]
-            break;
-        case 'down':
-            return cromaticScale[12-quanty]
-            break;
+    const quantyToTranspose = getQuantyOfSemitoneFromTo(from, to)
+
+    // we have to use the notesWithFlats array, because the 'from' come from the buttons of InstrumentSelection,
+    // and they are written with flats
+    const idxFrom = notesWithFlats.indexOf(from)
+
+    // we use the array with the index of the 'from' to order starting from the selected instrument tonality
+    const arrayStartingFrom = setOrderOfArrayFrom(arrayWithAllNotes, idxFrom)
+
+    // the 'note' is the note to transpose the same quantity of semitones that there are from one instrument to another
+    const idxOfSelectedNote = arrayStartingFrom.indexOf(note)
+    const diff = idxOfSelectedNote - quantyToTranspose
+
+    if (diff < 0) {
+        const idxOfTransposedNote = arrayStartingFrom.length + diff
+        return arrayStartingFrom[idxOfTransposedNote]
+    } else {
+        return arrayStartingFrom[diff]
     }
 }
 
-const setDirectionAndQuantyHalfTones = (from, to) => {
-    if (from === 'C' && to === 'Bb') return {quanty: 2, direction: 'up'}
-    if (from === 'C' && to === 'Eb') return {quanty: 3, direction: 'down'}
-    if (from === 'Bb' && to === 'C') return {quanty: 2, direction: 'down'}
-    if (from === 'Bb' && to === 'Eb') return {quanty: 5, direction: 'down'}
-    if (from === 'Eb' && to === 'C') return {quanty: 3, direction: 'up'}
-    if (from === 'Eb' && to === 'Bb') return {quanty: 5, direction: 'up'}
-    if (from === to) return {quanty: 0, direction: 'up'}
+const getQuantyOfSemitoneFromTo = (from, to) => {
+    if (from === to) return 0;
+
+    const idxFrom = notesWithFlats.indexOf(from)
+    const arrayStartFrom = setOrderOfArrayFrom(notesWithFlats, idxFrom)
+
+    return arrayStartFrom.indexOf(to)
+}
+
+// this function will order the array from the indicated index onforward, plus what is behind
+const setOrderOfArrayFrom = (arr, idx) => {
+    return arr.slice(idx).concat(arr.slice(0,idx))
 }
 
 export default utilsFunctions = {
-    transportByHalfTones: transportByHalfTones,
-    setDirectionAndQuantyHalfTones: setDirectionAndQuantyHalfTones
+    transposeNoteFromTo: transposeNoteFromTo
 }
