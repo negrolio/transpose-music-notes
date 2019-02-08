@@ -11,7 +11,7 @@ const transposeNoteFromTo = (note,from,to,arrayWithAllNotes) => {
     // we use the array with the index of the 'from' to order starting from the selected instrument tonality
     const arrayStartingFrom = setOrderOfArrayFrom(arrayWithAllNotes, idxFrom)
 
-    // the 'note' is the note to transpose the same quantity of semitones that there are from one instrument to another
+    // the 'note' is the note to transpose the same quantity of semitones that there are 'from' one instrument 'to' another
     const idxOfSelectedNote = arrayStartingFrom.indexOf(note)
     const diff = idxOfSelectedNote - quantyToTranspose
 

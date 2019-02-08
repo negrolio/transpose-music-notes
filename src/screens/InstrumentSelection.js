@@ -3,7 +3,6 @@ import { View, StyleSheet, BackHandler } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Header from '../components/Header';
 import InstrSelLayout from '../components/InstrSelLayout';
-import utilsFunctions from '../utils/utilsFunctions';
 
 class InstrumentSelection extends Component {
 
@@ -45,11 +44,11 @@ class InstrumentSelection extends Component {
             })
         } else {
             // if press a diferent button we have to go to the next screen
-                this.setState({toNote: tone},()=>{
-                    const { fromNote, toNote } = this.state;
-                    this.resetState() //before go to screen we reset the state
-                    this.goToNotesScreen(fromNote, toNote)
-                })
+            this.setState({toNote: tone},()=>{
+                const { fromNote, toNote } = this.state;
+                this.resetState() //before go to screen we reset the state
+                this.goToNotesScreen(fromNote, toNote)
+            })
         }
     }
 
