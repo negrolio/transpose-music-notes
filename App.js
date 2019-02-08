@@ -28,8 +28,11 @@ const RootStack = createStackNavigator(
 let ScreenHeight = Dimensions.get("window").height;
 
 export default class App extends React.Component {
-
   render() {
+
+    // avoid the landscape position
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+
     return (
       <View style={{height:'100%'}}>
         <RootStack />
