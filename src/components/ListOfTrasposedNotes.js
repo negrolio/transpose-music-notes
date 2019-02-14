@@ -60,13 +60,17 @@ class ListOfTrasposedNotes extends Component {
   }
 
   render() {
-    const heightScrenn = Dimensions.get('window').height;
+    const heightScreen = Dimensions.get('window').height;
+    const widthScreen = Dimensions.get('window').width;
     const { pressedExpanded, fullScreen } = this.props;
     return (
       <View style={[styles.listContainer,{
-        height:this.props.fullScreen ?
-          heightScrenn - 70 :
-          pressedExpanded ? 160 : 70}]}>
+          height:this.props.fullScreen ?
+            heightScreen - 70 :
+            pressedExpanded ? 160 : 70,
+          marginTop: this.props.fullScreen ? 30 : 0,
+          width: this.props.fullScreen ? widthScreen - 15 : widthScreen - 50
+        }]}>
         <ScrollView ref="scrollView" horizontal={!fullScreen}>
           <View>
 
@@ -101,11 +105,7 @@ class ListOfTrasposedNotes extends Component {
 const styles = StyleSheet.create({
   listContainer: {
     alignItems: 'center',
-    //flexDirection: 'row',
-    width: Dimensions.get('window').width - 15,
     backgroundColor:'#e8df8d',
-    borderRadius: 20,
-    marginTop: 30,
     zIndex: 1
   },
   containerButton: {

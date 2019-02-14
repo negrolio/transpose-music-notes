@@ -5,6 +5,7 @@ import ListOfTrasposedNotes from '../components/ListOfTrasposedNotes';
 import NotesSelLayout from '../components/NotesSelLayout';
 import SaveList from '../components/SaveList';
 import OptionsBar from '../components/OptionsBar';
+import InstrReference from '../components/InstrReference';
 
 const notesWithSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const notesWithFlats =  ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B']
@@ -103,21 +104,24 @@ class NotesScreen extends Component {
   }
 
   render() {
-    const { pressedListExpanded, listOfTransposedNotes, listOfPressedNotes, showPrompt, fromNoteToNote } = this.state;
-
+    const { pressedListExpanded, listOfTransposedNotes, listOfPressedNotes, showPrompt, fromNoteToNote, fullScreenList } = this.state;
     return (
       <View style={styles.container}>
 
         {/* List of transposed notes */}
-        <View style={{flex:pressedListExpanded?3:1.5}}>
+        <View style={[!fullScreenList && styles.listContainer,{flex:pressedListExpanded?3:1.5}]}>
+
+          {!fullScreenList &&
+          <InstrReference expandedList={pressedListExpanded} fromTo={fromNoteToNote}/>}
+
           <ListOfTrasposedNotes 
             remove={this.removeATransposedNote}
             pressedExpanded={pressedListExpanded}
-            fullScreen={this.state.fullScreenList}
+            fullScreen={fullScreenList}
             toggleFullScreen={this.toggleFullScreenList}
             listOfNotes={{
-              transposed: this.state.listOfTransposedNotes,
-              pressed: this.state.listOfPressedNotes}}/>
+              transposed: listOfTransposedNotes,
+              pressed: listOfPressedNotes}}/>
         </View>
 
         <OptionsBar toggleExpandPressedList={this.toggleExpandPressedList}
@@ -151,6 +155,10 @@ const styles = StyleSheet.create({
   notesButtons: {
     flex: 5,
     zIndex:-1
+  },
+  listContainer: {
+    flexDirection: 'row',
+    alignItems:'center'
   }
 });
 

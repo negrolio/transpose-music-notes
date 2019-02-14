@@ -21,7 +21,7 @@ class ImgBtnWithTxt extends React.Component {
     }
     render () {
         return (
-            <View style={{width: 120, height: 120}}>
+            <View style={{width: this.props.size, height: this.props.size}}>
                 <TouchableOpacity style={styles.button} onPress={this.onButtonPressed}>
                     <ImageBackground source={this.props.src} style={[styles.img, {backgroundColor: this.state.buttonPressed ? '#419CBA' : '#F7F8E0'} ]}>
                         <Text style={styles.text}>{this.props.text}</Text>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import ImgBtnWithTxt from './../components/ImgBtnWithTxt';
+import instrumentImg from '../utils/instrumentImages';
 
 class InstrSelLayout extends Component {
 
@@ -13,11 +14,11 @@ class InstrSelLayout extends Component {
             <View style={styles.container}>
                 <View style={styles.buttonsLayout} >
                     <View style={styles.buttonsFirstLine}>
-                        <ImgBtnWithTxt src={require("./../../public/img/piano.png")} text='C' onTouch={this.onSelect} />
-                        <ImgBtnWithTxt src={require("./../../public/img/trumpet3.png")} text='Bb' onTouch={this.onSelect}/>
+                        <ImgBtnWithTxt src={instrumentImg['C']} text='C' onTouch={this.onSelect} size={120}/>
+                        <ImgBtnWithTxt src={instrumentImg['Bb']} text='Bb' onTouch={this.onSelect} size={120}/>
                     </View>
                     <View style={styles.buttonssecondLine} >
-                        <ImgBtnWithTxt src={require("./../../public/img/sax.png")} text='Eb' onTouch={this.onSelect}/>
+                        <ImgBtnWithTxt src={instrumentImg['Eb']} text='Eb' onTouch={this.onSelect} size={120}/>
                     </View>
                 </View>
             </View>
