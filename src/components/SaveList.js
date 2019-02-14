@@ -12,13 +12,13 @@ class SaveList extends Component {
   }
 
   _storeData = async () => {
-    const { transposed, pressed, directionAndQuantityToTranspose } = this.props;
+    const { transposed, pressed, fromNoteToNote } = this.props;
     if (!this.state.promptValue) return;
 
     const data = JSON.stringify({
       transposedList: transposed,
       pressedList: pressed,
-      dataFromTo: directionAndQuantityToTranspose
+      dataFromTo: fromNoteToNote
     })
 
     try {
