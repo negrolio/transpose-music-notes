@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, BackHandler } from 'react-native';
 import Header from './../components/Header';
 import ImgButton from '../components/ImgButton';
 
 class HomeScreen extends Component {
     
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            BackHandler.exitApp();
+            return true;
+        });
+    }
+
     goToInstrumentSelection = () => {
         this.props.navigation.navigate('InstrumentSelection',{title:'Select initial instrument'})
     }

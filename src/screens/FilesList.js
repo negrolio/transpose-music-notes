@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage, TouchableOpacity, Alert } from 'react-native';
+import { View,
+         Text,
+         StyleSheet,
+         AsyncStorage,
+         TouchableOpacity,
+         Alert,
+         BackHandler } from 'react-native';
 
 class FilesList extends Component {
   constructor (props) {
@@ -9,9 +15,17 @@ class FilesList extends Component {
     }
   }
 
-  componentDidMount () {
-    this.getList()
-  }
+componentDidMount () {
+  this.getList()
+  this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Home'); 
+      return true;
+  });
+}
+
+componentWillUnmount() {
+    this.backHandler.remove();
+}
 
   getList = async () => {
     try {

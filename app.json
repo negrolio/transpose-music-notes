@@ -15,6 +15,7 @@
     },
     "android": {
       "package": "leomolinari.com"
-    }
+    },
+    "primaryColor": "#F0E68C"
   }
 }
